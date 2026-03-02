@@ -1,0 +1,77 @@
+<div class="dashboard-container">
+  <div class="header">
+    <h1>COVID-19 Global Statistics</h1>
+    <button class="refresh-btn" (click)="refreshData()" [disabled]="loading">
+      🔄 Refresh Data
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="globalStats && !loading" class="stats-grid">
+    <div class="stat-card total-cases">
+      <div class="stat-icon">🦠</div>
+      <div class="stat-content">
+        <h3>Total Cases</h3>
+        <p class="stat-number">{{ formatNumber(globalStats.cases) }}</p>
+        <p class="stat-today">+{{ formatNumber(globalStats.todayCases) }} today</p>
+      </div>
+    </div>
+
+    <div class="stat-card deaths">
+      <div class="stat-icon">💀</div>
+      <div class="stat-content">
+        <h3>Deaths</h3>
+        <p class="stat-number">{{ formatNumber(globalStats.deaths) }}</p>
+        <p class="stat-today">+{{ formatNumber(globalStats.todayDeaths) }} today</p>
+      </div>
+    </div>
+
+    <div class="stat-card recovered">
+      <div class="stat-icon">💚</div>
+      <div class="stat-content">
+        <h3>Recovered</h3>
+        <p class="stat-number">{{ formatNumber(globalStats.recovered) }}</p>
+        <p class="stat-today">+{{ formatNumber(globalStats.todayRecovered) }} today</p>
+      </div>
+    </div>
+
+    <div class="stat-card active">
+      <div class="stat-icon">🏥</div>
+      <div class="stat-content">
+        <h3>Active Cases</h3>
+        <p class="stat-number">{{ formatNumber(globalStats.active) }}</p>
+        <p class="stat-subtitle">Currently infected</p>
+      </div>
+    </div>
+
+    <div class="stat-card critical">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-content">
+        <h3>Critical</h3>
+        <p class="stat-number">{{ formatNumber(globalStats.critical) }}</p>
+        <p class="stat-subtitle">Serious condition</p>
+      </div>
+    </div>
+
+    <div class="stat-card tests">
+      <div class="stat-icon">🧪</div>
+      <div class="stat-content">
+        <h3>Total Tests</h3>
+        <p class="stat-number">{{ formatNumber(globalStats.tests) }}</p>
+        <p class="stat-subtitle">{{ globalStats.affectedCountries }} countries</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="globalStats" class="info-section">
+    <p class="last-updated">Last updated: {{ globalStats.updatedAt | date: 'medium' }}</p>
+  </div>
+</div>
+

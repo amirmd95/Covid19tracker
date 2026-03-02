@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "name": "covid19-tracker-frontend",
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/covid19-tracker-frontend/browser"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist/covid19-tracker-frontend/browser",
+  "framework": "angular",
+  "installCommand": "cd frontend && npm install"
+}
+

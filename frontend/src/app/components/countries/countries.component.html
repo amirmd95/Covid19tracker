@@ -1,0 +1,81 @@
+<div class="countries-container">
+  <div class="header">
+    <h1>COVID-19 by Country</h1>
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterCountries()"
+        placeholder="Search country..."
+        class="search-input"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading countries data...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="table-container">
+    <table class="countries-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Country</th>
+          <th (click)="changeSortBy('cases')" class="sortable">
+            Total Cases
+            <span class="sort-indicator" *ngIf="sortBy === 'cases'">
+              {{ sortOrder === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th>Today Cases</th>
+          <th (click)="changeSortBy('deaths')" class="sortable">
+            Total Deaths
+            <span class="sort-indicator" *ngIf="sortBy === 'deaths'">
+              {{ sortOrder === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th>Today Deaths</th>
+          <th (click)="changeSortBy('recovered')" class="sortable">
+            Recovered
+            <span class="sort-indicator" *ngIf="sortBy === 'recovered'">
+              {{ sortOrder === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th>Active</th>
+          <th>Critical</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let country of filteredCountries; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td class="country-cell">
+            <img
+              *ngIf="country.flagUrl"
+              [src]="country.flagUrl"
+              [alt]="country.country"
+              class="flag-icon"
+            />
+            <span>{{ country.country }}</span>
+          </td>
+          <td class="number-cell">{{ formatNumber(country.cases) }}</td>
+          <td class="number-cell today-cases">+{{ formatNumber(country.todayCases) }}</td>
+          <td class="number-cell deaths">{{ formatNumber(country.deaths) }}</td>
+          <td class="number-cell today-deaths">+{{ formatNumber(country.todayDeaths) }}</td>
+          <td class="number-cell recovered">{{ formatNumber(country.recovered) }}</td>
+          <td class="number-cell active">{{ formatNumber(country.active) }}</td>
+          <td class="number-cell critical">{{ formatNumber(country.critical) }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredCountries.length === 0" class="no-results">
+      <p>No countries found matching "{{ searchTerm }}"</p>
+    </div>
+  </div>
+</div>
+
